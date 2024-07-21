@@ -4,6 +4,7 @@ import { IBrand, ICategory, IProduct } from '../shared/model/product';
 import { ShopService } from './shop.service';
 import { ProductItemComponent } from "./product-item/product-item.component";
 import { error } from 'node:console';
+import { ShopParams } from '../shared/model/shopparams';
 
 @Component({
   selector: 'app-shop',
@@ -16,8 +17,11 @@ export class ShopComponent implements OnInit {
   products: IProduct[] = [];
   categories:ICategory[] = [];
   brands:IBrand[] = [];
+  shopParams: ShopParams;
   totalCount = 0;
-  constructor(private shopService: ShopService){}
+  constructor(private shopService: ShopService){
+    this.shopParams = this.shopService.getShopParams();
+  }
   
   ngOnInit(): void {
     this.getProducts();
@@ -27,7 +31,12 @@ export class ShopComponent implements OnInit {
 
   getProducts(){
     this.shopService.getProducts().subscribe({
-      next: response =>  this.products = response.productList,
+      next: response =>  {
+        this.products = response?.productList 
+        this.shopParams.pageIndex = response?.pageIndex;
+        this.shopParams.pageSize = response?.pageSize;
+        this.totalCount= response?.totalCount;
+      },
       error: error => console.log(error)
 
    })
@@ -46,5 +55,25 @@ export class ShopComponent implements OnInit {
       error:error=>console.log(error)
     })
   }
+
+  onBrandSelected(brandId: number) {
+    const params = this.shopService.getShopParams();
+    params.brandId = brandId;
+    console.log(params.brandId);
+    params.pageIndex= 1;
+    //if(params.pageSize ==0) params.pageSize=6;
+    this.shopService.setShopParams(params);
+    this.shopParams =params;
+    this.getProducts();
+}
+onCategorySelected(categoryId: number)  {
+  const params = this.shopService.getShopParams();
+    params.categoryId = categoryId;
+    params.pageIndex=1;
+    //if(params.pageSize == 0) params.pageSize=6;
+    this.shopService.setShopParams(params);
+    this.shopParams =params;
+    this.getProducts();
+}
 
 }
