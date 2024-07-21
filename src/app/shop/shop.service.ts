@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/model/pagination';
-import { IProduct } from '../shared/model/product';
+import { IBrand, ICategory, IProduct } from '../shared/model/product';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,6 +13,13 @@ export class ShopService {
   
   getProducts() {
     return this.http.get<IPagination<IProduct[]>>(environment.apiUrl +'shop/products?pageSize=10');
+  }
+
+  getCategories() {
+    return this.http.get<ICategory[]>(environment.apiUrl +'shop/categories');
+  }
+  getBrands() {
+    return this.http.get<IBrand[]>(environment.apiUrl +'shop/brands');
   }
 
 }
