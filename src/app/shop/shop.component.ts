@@ -104,10 +104,16 @@ export class ShopComponent implements OnInit {
   onSearch(){
     const params = this.shopService.getShopParams();
     params.search = this.searchTerm?.nativeElement.value;
-    console.log(params.search);
     params.pageIndex=1;
     this.shopService.setShopParams(params);
     this.shopParams = params;
+    this.getProducts();
+  }
+
+  onReset(){
+    if(this.searchTerm) this.searchTerm.nativeElement.value="";
+    this.shopParams = new ShopParams();
+    this.shopService.setShopParams(this.shopParams);
     this.getProducts();
   }
 
