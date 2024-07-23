@@ -5,11 +5,12 @@ import { ShopService } from './shop.service';
 import { ProductItemComponent } from "./product-item/product-item.component";
 import { error } from 'node:console';
 import { ShopParams } from '../shared/model/shopparams';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, ProductItemComponent],
+  imports: [CommonModule, ProductItemComponent,PaginationModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
@@ -85,7 +86,18 @@ export class ShopComponent implements OnInit {
     const params = this.shopService.getShopParams();
     params.sort = event.target.value;
     this.shopService.setShopParams(params);
+    this.shopParams = params;
     this.getProducts();
+  }
+
+  onPageChanged(event: any){
+    const params = this.shopService.getShopParams();
+    if(params.pageIndex!==event.page){
+      params.pageIndex = event.page;
+      this.shopService.setShopParams(params);
+      this.shopParams = params;
+      this.getProducts();
+    }
   }
 
 }

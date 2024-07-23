@@ -4,6 +4,7 @@ import { IPagination } from '../shared/model/pagination';
 import { IBrand, ICategory, IProduct } from '../shared/model/product';
 import { environment } from '../../environments/environment';
 import { ShopParams } from '../shared/model/shopparams';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { ShopParams } from '../shared/model/shopparams';
 export class ShopService {
 
   shopParams = new ShopParams();
+  pagination?:IPagination<IProduct[]>;
 
   constructor(private  http: HttpClient) { }
   
@@ -28,7 +30,12 @@ export class ShopService {
     params = params.append('pageIndex', this.shopParams.pageIndex);
     // if(this.shopParams?.pageSize === 'undefined')  this.shopParams.pageSize=environment.pageSize;
      params = params.append('pageSize', environment.pageSize);
-    return this.http.get<IPagination<IProduct[]>>(environment.apiUrl +'shop/products?pageSize=10',{params});
+    return this.http.get<IPagination<IProduct[]>>(environment.apiUrl +'shop/products?pageSize=10',{params}).pipe(
+      map(response=>{
+        this.pagination = response;
+        return response;
+      })
+    );
   }
 
   getCategories() {
