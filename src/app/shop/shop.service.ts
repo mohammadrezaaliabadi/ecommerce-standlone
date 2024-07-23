@@ -19,6 +19,7 @@ export class ShopService {
     console.log("page size:");
     console.log(this.shopParams.pageSize);
 
+    // sort param
     params = params.append('sort', this.shopParams.sort);
 
 

@@ -19,6 +19,11 @@ export class ShopComponent implements OnInit {
   brands:IBrand[] = [];
   shopParams: ShopParams;
   totalCount = 0;
+  sortOptions=[
+    {name: 'Alphabetical', value: 'title'},
+    {name: 'Price: Low to high', value:'priceAsc'},
+    {name: 'Price: High to low', value: 'priceDesc'}
+  ];
   constructor(private shopService: ShopService){
     this.shopParams = this.shopService.getShopParams();
   }
@@ -65,15 +70,22 @@ export class ShopComponent implements OnInit {
     this.shopService.setShopParams(params);
     this.shopParams =params;
     this.getProducts();
-}
-onCategorySelected(categoryId: number)  {
-  const params = this.shopService.getShopParams();
-    params.categoryId = categoryId;
-    params.pageIndex=1;
-    //if(params.pageSize == 0) params.pageSize=6;
+  }
+  onCategorySelected(categoryId: number)  {
+    const params = this.shopService.getShopParams();
+      params.categoryId = categoryId;
+      params.pageIndex=1;
+      //if(params.pageSize == 0) params.pageSize=6;
+      this.shopService.setShopParams(params);
+      this.shopParams =params;
+      this.getProducts();
+  }
+
+  onSortSelected(event:any){
+    const params = this.shopService.getShopParams();
+    params.sort = event.target.value;
     this.shopService.setShopParams(params);
-    this.shopParams =params;
     this.getProducts();
-}
+  }
 
 }
