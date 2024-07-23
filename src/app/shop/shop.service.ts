@@ -30,6 +30,9 @@ export class ShopService {
     params = params.append('pageIndex', this.shopParams.pageIndex);
     // if(this.shopParams?.pageSize === 'undefined')  this.shopParams.pageSize=environment.pageSize;
      params = params.append('pageSize', environment.pageSize);
+
+     if(this.shopParams.search) params = params.append('search',this.shopParams.search.trim());
+     
     return this.http.get<IPagination<IProduct[]>>(environment.apiUrl +'shop/products?pageSize=10',{params}).pipe(
       map(response=>{
         this.pagination = response;

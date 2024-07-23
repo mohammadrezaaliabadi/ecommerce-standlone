@@ -45,15 +45,16 @@
                 <header>
                    
                     <span *ngIf="totalCount && totalCount > 0">Showing <strong>
-                        
+                        {{(shopParams.pageIndex-1)*shopParams.pageSize+ 1}}-
+                        {{shopParams.pageIndex * shopParams.pageSize > totalCount 
+                        ? totalCount : shopParams.pageSize*shopParams.pageIndex}}
                     </strong> 
-                        
                         of <strong>{{totalCount}}</strong> items </span>
                 </header>
 
                 <div class="d-flex mt-2">
                     <input type="text" placeholder="Search" class="form-control me-2" #search>
-                    <button   class="btn btn-outline-primary mx-2">Search</button>
+                    <button (click)="onSearch()"  class="btn btn-outline-primary mx-2">Search</button>
                     <button   class="btn btn-outline-success">Reset</button>
                 </div>
             </div>
