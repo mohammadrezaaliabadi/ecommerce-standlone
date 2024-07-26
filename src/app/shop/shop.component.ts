@@ -3,7 +3,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IBrand, ICategory, IProduct } from '../shared/model/product';
 import { ShopService } from './shop.service';
 import { ProductItemComponent } from "./product-item/product-item.component";
-import { error } from 'node:console';
 import { ShopParams } from '../shared/model/shopparams';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
