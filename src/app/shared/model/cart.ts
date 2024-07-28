@@ -22,7 +22,7 @@ export class Cart implements ICart{
 }
 
 export interface ICartTotals{
+    total:number;
     subTotal:number;
     shipping:number;
-    total:number;
 }
